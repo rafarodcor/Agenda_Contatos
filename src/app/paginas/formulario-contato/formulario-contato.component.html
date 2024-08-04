@@ -1,0 +1,108 @@
+<app-container>
+  <!-- <header>
+    <section class="cabecalho-link">
+      <img src="assets/imagens/logo.png" alt="" />
+      <div>
+        <button>
+          <img class="seta" src="assets/imagens/arrow-left.png" alt="" />
+          <a routerLink="/lista-contatos">Voltar</a>
+        </button>
+      </div>
+    </section>
+    <section class="cabecalho-contato">
+      <img src="assets/imagens/adicionar-contato.png" alt="" />
+      <h1>Adicionar contato</h1>
+    </section>
+  </header> -->
+  <app-cabecalho
+    [bannerSrc]="'assets/imagens/adicionar-contato.png'"
+    [titulo]="'Adicionar contato'"
+  ></app-cabecalho>
+
+  <form [formGroup]="contatoForm" (ngSubmit)="salvarContato()">
+    <div role="button" class="imagem-contato">
+      <i class="material-icons">add</i>
+      <label for="avatar">Adicione a imagem do contato</label>
+      <input
+        type="file"
+        accept="image/*"
+        id="avatar"
+        required
+        (change)="aoSelecionarArquivo($event)"
+      />
+    </div>
+    @if(contatoForm.get('avatar')?.value !== ''){
+    <figure>
+      <img [src]="contatoForm.get('avatar')?.value" alt="Avatar do contato" />
+    </figure>
+    }
+    <label for="nome">Nome</label>
+    <input
+      formControlName="nome"
+      type="text"
+      id="nome"
+      placeholder="Digite o nome do contato"
+    />
+    <app-mensagem-erro [control]="obterControle('nome')"></app-mensagem-erro>
+
+    <label for="telefone">Telefone</label>
+    <input
+      formControlName="telefone"
+      type="text"
+      id="telefone"
+      placeholder="Digite o telefone do contato"
+    />
+    <app-mensagem-erro
+      [control]="obterControle('telefone')"
+    ></app-mensagem-erro>
+
+    <label for="email">E-mail</label>
+    <input
+      formControlName="email"
+      type="email"
+      id="email"
+      placeholder="Digite o e-mail do contato"
+    />
+    <app-mensagem-erro [control]="obterControle('email')"></app-mensagem-erro>
+
+    <label for="aniversario">Aniversário</label>
+    <input
+      formControlName="aniversario"
+      type="date"
+      id="aniversario"
+      placeholder="Data de nascimento"
+    />
+
+    <label for="redes">Redes sociais</label>
+    <div class="input-container">
+      <span class="span-http">http://</span>
+      <input
+        formControlName="redes"
+        type="url"
+        id="redes"
+        placeholder="Adicione a URL da página"
+      />
+    </div>
+
+    <label for="observacoes">Observações</label>
+    <textarea
+      formControlName="observacoes"
+      type="text"
+      id="observacoes"
+      placeholder="Coloque observações nesse espaço. Exemplo: 'Instrutora da academia Nova Imagem, amiga da Júlia'"
+    ></textarea>
+
+    <section class="botoes">
+      <button (click)="cancelar()" class="botao-cancelar" type="button">
+        Cancelar
+      </button>
+      <button
+        [disabled]="contatoForm.invalid"
+        [ngClass]="contatoForm.valid ? 'botao-salvar' : 'botao-desabilitado'"
+        type="submit"
+      >
+        Salvar contato
+      </button>
+    </section>
+  </form>
+</app-container>
